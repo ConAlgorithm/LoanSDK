@@ -32,7 +32,6 @@ public class MakePoint {
             try {
                 jSONObject1.put("channelId", channelId);
                 jSONObject1.put("event", eventKey);
-//                jSONObject1.put("gooleAdsId", gooleAdsId);
                 jSONObject1.put("userId", 0);
 
                 String resultStr = GetPostUrl.getPost.postBody(Constant.BaseUrl + Constant.channelstat, jSONObject1);
