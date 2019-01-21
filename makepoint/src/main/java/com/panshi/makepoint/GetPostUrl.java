@@ -1,5 +1,7 @@
 package com.panshi.makepoint;
 
+import android.content.Context;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -15,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-import static com.panshi.makepoint.AdvertisingIdClient.getGoogleAdId;
+import static android.os.Build.SERIAL;
 import static com.panshi.makepoint.MakePoint.Myapplication;
 
 public class GetPostUrl {
@@ -134,13 +136,15 @@ public class GetPostUrl {
                 String googleAdsId = "";
                 if (Myapplication != null) {
                     try {
-                        googleAdsId = getGoogleAdId(Myapplication);
+                        googleAdsId = SERIAL + "|||" + getAndroidId(Myapplication);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        googleAdsId = "";
+                        googleAdsId = SERIAL;
                     }
+                } else {
+                    googleAdsId = SERIAL;
                 }
-                Log.d("googleAdsIdgoogleAdsId", googleAdsId);
+                Log.d("googleAdsId", googleAdsId);
                 jSONObject1.put("gooleAdsId", googleAdsId);
                 String json = jSONObject1.toString();
                 DataOutputStream out = null;
@@ -186,5 +190,9 @@ public class GetPostUrl {
         return s;
     }
 
+    public static String getAndroidId(Context context) {
+        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
+        return ANDROID_ID;
+    }
 
 }
