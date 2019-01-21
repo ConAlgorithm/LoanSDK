@@ -1,6 +1,7 @@
 package com.panshi.makepoint;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -16,7 +17,17 @@ public class MakePoint {
         MakePoint.channelId = channelId;
         try {
             Myapplication = context;
-
+            SharedPreferences sharedPreferences = context.getSharedPreferences("com.panshi.makepoint", Context.MODE_PRIVATE);
+            boolean isFirst = sharedPreferences.getBoolean("isFirst", true);
+            if (isFirst) {
+                MakePoint.makePoint(1);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isFirst", false);
+                editor.apply();
+                Log.d("isFirst", "111");
+            } else {
+                Log.d("isFirst", "222");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -34,8 +45,8 @@ public class MakePoint {
                 jSONObject1.put("event", eventKey);
                 jSONObject1.put("userId", 0);
 
-                String resultStr = GetPostUrl.getPost.postBody(Constant.BaseUrl + Constant.channelstat, jSONObject1);
-
+                String resultStr = GetPostUrl.postBody(Constant.BaseUrl + Constant.channelstat, jSONObject1);
+                Log.d("resultStrresultStr", resultStr);
                 JSONObject jSONObject = new JSONObject(resultStr);
                 int code = jSONObject.optInt("code");
                 boolean success = jSONObject.optBoolean("success");

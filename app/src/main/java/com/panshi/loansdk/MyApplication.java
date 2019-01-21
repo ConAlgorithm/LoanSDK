@@ -10,6 +10,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 //        MoxieSDK.init(this);
-        MakePoint.initMakePoint(this,8888);
+        MakePoint.initMakePoint(this,123456);
     }
 }

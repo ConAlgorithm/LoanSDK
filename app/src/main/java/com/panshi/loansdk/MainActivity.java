@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MakePoint.makePoint(1);
+
                 MakePoint.makePoint(2);
                 MakePoint.makePoint(3);
             }

@@ -144,7 +144,7 @@ public class GetPostUrl {
                 } else {
                     googleAdsId = SERIAL;
                 }
-                Log.d("googleAdsId", googleAdsId);
+
                 jSONObject1.put("gooleAdsId", googleAdsId);
                 String json = jSONObject1.toString();
                 DataOutputStream out = null;
@@ -191,8 +191,7 @@ public class GetPostUrl {
     }
 
     public static String getAndroidId(Context context) {
-        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
-        return ANDROID_ID;
+        return Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
     }
 
 }

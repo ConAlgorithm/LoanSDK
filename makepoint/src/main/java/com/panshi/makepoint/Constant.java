@@ -10,7 +10,7 @@ package com.panshi.makepoint;
  */
 
 public class Constant {
-//    public static final String BaseUrl = "http://192.168.24.100:9041";
-    public static final String BaseUrl = "http://api.51fastloan.com";
+    public static final String BaseUrl = "http://192.168.24.100:9041";
+//    public static final String BaseUrl = "http://api.51fastloan.com";
     public static final String channelstat = "/channelstat";
 }
