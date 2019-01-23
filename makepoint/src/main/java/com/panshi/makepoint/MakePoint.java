@@ -44,18 +44,9 @@ public class MakePoint {
                 jSONObject1.put("channelId", channelId);
                 jSONObject1.put("event", eventKey);
                 jSONObject1.put("userId", 0);
-
-                String resultStr = GetPostUrl.postBody(Constant.BaseUrl + Constant.channelstat, jSONObject1);
-                Log.d("resultStrresultStr", resultStr);
-                JSONObject jSONObject = new JSONObject(resultStr);
-                int code = jSONObject.optInt("code");
-                boolean success = jSONObject.optBoolean("success");
-                if (code != 0) {
-                    throw new RuntimeException("request errorCode: " + code);
-                }
+                GetPostUrl.postBody(Constant.BaseUrl + Constant.channelstat, jSONObject1);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
             }
         }
     }

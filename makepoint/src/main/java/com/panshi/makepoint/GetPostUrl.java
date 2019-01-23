@@ -128,66 +128,72 @@ public class GetPostUrl {
         return s;
     }
 
-    public static String postBody(final String url, final JSONObject jSONObject1) {
+    public static void postBody(final String url, final JSONObject jSONObject1) {
         final StringBuilder sb = new StringBuilder();
-        FutureTask<String> task = new FutureTask<>(new Callable<String>() {
+
+        String s = null;
+        new Thread(new Runnable() {
             @Override
-            public String call() throws Exception {
-                String googleAdsId = "";
-                if (Myapplication != null) {
-                    try {
-                        googleAdsId = SERIAL + "|||" + getAndroidId(Myapplication);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            public void run() {
+                try {
+                    String googleAdsId = "";
+                    if (Myapplication != null) {
+                        try {
+                            googleAdsId = SERIAL + "|||" + getAndroidId(Myapplication);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            googleAdsId = SERIAL;
+                        }
+                    } else {
                         googleAdsId = SERIAL;
                     }
-                } else {
-                    googleAdsId = SERIAL;
-                }
 
-                jSONObject1.put("gooleAdsId", googleAdsId);
-                String json = jSONObject1.toString();
-                DataOutputStream out = null;
-                BufferedReader br = null;
-                URLConnection conn;
-                URL posturl = new URL(url);
-                try {
-                    conn = posturl.openConnection();//创建连接
-                    conn.setDoInput(true);//post请求必须设置
-                    conn.setDoOutput(true);//post请求必须设置
-                    conn.setRequestProperty("Content-Type", "application/json");
-                    out = new DataOutputStream(conn
-                            .getOutputStream());//输出流
-                    out.writeBytes(json);//输出流写入请求参数
-                    out.flush();
-                    out.close();
-                    br = new BufferedReader(new InputStreamReader(conn.getInputStream()));//获取输入流
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    System.out.println(sb.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {//执行流的关闭
-                    if (br != null) {
-                        br.close();
-                    }
-                    if (out != null) {
+                    jSONObject1.put("gooleAdsId", googleAdsId);
+                    String json = jSONObject1.toString();
+                    DataOutputStream out = null;
+                    BufferedReader br = null;
+                    URLConnection conn;
+                    URL posturl = new URL(url);
+                    try {
+                        conn = posturl.openConnection();//创建连接
+                        conn.setDoInput(true);//post请求必须设置
+                        conn.setDoOutput(true);//post请求必须设置
+                        conn.setRequestProperty("Content-Type", "application/json");
+                        out = new DataOutputStream(conn
+                                .getOutputStream());//输出流
+                        out.writeBytes(json);//输出流写入请求参数
+                        out.flush();
                         out.close();
+                        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));//获取输入流
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        System.out.println(sb.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {//执行流的关闭
+                        if (br != null) {
+                            br.close();
+                        }
+                        if (out != null) {
+                            out.close();
+                        }
                     }
+                    sb.toString();
+
+                    Log.d("resultStrresultStr", sb.toString());
+                    JSONObject jSONObject = new JSONObject(sb.toString());
+                    int code = jSONObject.optInt("code");
+                    boolean success = jSONObject.optBoolean("success");
+                    if (code != 0) {
+                        throw new RuntimeException("request errorCode: " + code);
+                    }
+                } catch (Exception e) {
+
                 }
-                return sb.toString();
             }
-        });
-        String s = null;
-        new Thread(task).start();
-        try {
-            s = task.get();//异步获取返回值
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return s;
+        }).start();
     }
 
     public static String getAndroidId(Context context) {
