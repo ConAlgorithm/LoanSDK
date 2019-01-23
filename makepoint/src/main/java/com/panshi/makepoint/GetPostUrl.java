@@ -129,13 +129,13 @@ public class GetPostUrl {
     }
 
     public static void postBody(final String url, final JSONObject jSONObject1) {
-        final StringBuilder sb = new StringBuilder();
 
-        String s = null;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    Log.d("resultStrresultStr", "1111");
+                    final StringBuilder sb = new StringBuilder();
                     String googleAdsId = "";
                     if (Myapplication != null) {
                         try {
